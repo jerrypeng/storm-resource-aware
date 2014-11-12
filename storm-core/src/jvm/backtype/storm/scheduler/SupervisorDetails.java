@@ -19,6 +19,7 @@ package backtype.storm.scheduler;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class SupervisorDetails {
@@ -38,24 +39,41 @@ public class SupervisorDetails {
      */
     Set<Integer> allPorts;
 
-    public SupervisorDetails(String id, Object meta){
+    private Map<String, Number> _total_resources;
+
+    public SupervisorDetails(String id, String host, Object meta, Object schedulerMeta, 
+          Collection<Number> allPorts, Map<String, Number> total_resources){
+      
         this.id = id;
+        this.host = host;
         this.meta = meta;
-        allPorts = new HashSet();
+        this.schedulerMeta = schedulerMeta;
+        if(allPorts!=null) {
+          setAllPorts(allPorts);
+        } else {
+          this.allPorts = new HashSet();
+        }
+        this._total_resources = total_resources;
+    }
+    public SupervisorDetails(String id, Object meta){
+        this(id, null,meta, null, null, null);
+    }
+
+    public SupervisorDetails(String id, Object meta, Map<String, Number> total_resources){
+        this(id, null, meta, null, null, total_resources);
     }
     
     public SupervisorDetails(String id, Object meta, Collection<Number> allPorts){
-        this.id = id;
-        this.meta = meta;
-        setAllPorts(allPorts);
+        this(id, null, meta, null, allPorts, null);
     }
 
     public SupervisorDetails(String id, String host, Object schedulerMeta, Collection<Number> allPorts){
-        this.id = id;
-        this.host = host;
-        this.schedulerMeta = schedulerMeta;
+        this(id, host, null, schedulerMeta, allPorts, null);
+    }
 
-        setAllPorts(allPorts);
+    public SupervisorDetails(String id, String host, Object schedulerMeta,
+        Collection<Number> allPorts, Map<String, Number> total_resources){
+        this(id, host, null, schedulerMeta, allPorts, total_resources);
     }
 
     private void setAllPorts(Collection<Number> allPorts) {
@@ -85,5 +103,26 @@ public class SupervisorDetails {
 
     public Object getSchedulerMeta() {
         return this.schedulerMeta;
+    }
+
+    private Double getTotalResource(String type) {
+        if (this._total_resources == null) {
+          return null;
+        } else {
+            if (this._total_resources.containsKey(type) == false) {
+                return null;
+            } else {
+                Number totalResource = this._total_resources.get(type);
+                return totalResource.doubleValue();
+            }
+        }
+    }
+
+    public Double getTotalMemory() {
+        return this.getTotalResource(Globals.TYPE_MEMORY);
+    }
+
+    public Double getTotalCPU() {
+      return this.getTotalResource(Globals.TYPE_CPU);
     }
 }

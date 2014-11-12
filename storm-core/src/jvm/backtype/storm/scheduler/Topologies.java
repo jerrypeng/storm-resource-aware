@@ -54,4 +54,20 @@ public class Topologies {
     public Collection<TopologyDetails> getTopologies() {
         return this.topologies.values();
     }
+
+ public Map<String, Map<ExecutorDetails, Map<String , Map<String, Double>>>> getGlobalResourceReqList() {
+        Map<String, Map<ExecutorDetails, Map<String , Map<String, Double>>>> ret = null;
+        if (this.topologies.size() > 0) {
+            ret = new HashMap<String, Map<ExecutorDetails, Map<String , Map<String, Double>>>>();
+            for (TopologyDetails td : this.topologies.values()) {
+                Map<ExecutorDetails, Map<String, Map<String, Double>>> tdResourceList = 
+                    td.getResourceList();
+                if (tdResourceList==null) {
+                      break;
+                  }
+                ret.put(td.getId(), td.getResourceList());
+            }
+        }
+        return ret;
+    }
 }

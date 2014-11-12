@@ -546,6 +546,20 @@ public class Config extends HashMap<String, Object> {
     public static final Object TOPOLOGY_TASKS_SCHEMA = Number.class;
 
     /**
+     * The maximum amount of memory an instance of a spout/bolt will take. This enables the scheduler
+     * to allocate slots on machines with enough available memory. 
+     */
+    public static final String TOPOLOGY_RESOURCES_MEMORY_MB = "topology.resources.memory.mb";
+    public static final Object TOPOLOGY_RESOURCES_MEMORY_MB_SCHEMA = Map.class;
+
+    /**
+     * The maximum amount of cpu an instance of a spout/bolt will take. This enables the scheduler
+     * to allocate slots on machines with enough available cpu. 
+     */
+    public static final String TOPOLOGY_RESOURCES_CPU = "topology.resources.cpu";
+    public static final Object TOPOLOGY_RESOURCES_CPU_SCHEMA = ConfigValidation.PositiveIntegerValidator;
+
+    /**
      * How many executors to spawn for ackers.
      *
      * <p>If this is set to 0, then Storm will immediately ack tuples as soon

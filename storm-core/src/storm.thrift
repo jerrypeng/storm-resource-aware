@@ -147,6 +147,8 @@ struct SupervisorSummary {
   3: required i32 num_workers;
   4: required i32 num_used_workers;
   5: required string supervisor_id;
+  6: optional map<string, double> total_resources;
+  7: optional map<string, double> used_resources;
 }
 
 struct ClusterSummary {

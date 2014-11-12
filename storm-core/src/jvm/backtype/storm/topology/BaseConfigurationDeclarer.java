@@ -51,4 +51,28 @@ public abstract class BaseConfigurationDeclarer<T extends ComponentConfiguration
         if(val!=null) val = val.intValue();
         return addConfiguration(Config.TOPOLOGY_TASKS, val);
     }
+
+    @Override
+    public T setMemoryLoad(Double onHeap) {
+        return setMemoryLoad(onHeap, 0.0);
+    } 
+
+    @Override
+    public T setMemoryLoad(Double onHeap, Double offHeap) {
+        if (onHeap != null) {
+            onHeap = onHeap.doubleValue();
+        }
+        if (offHeap!=null) {
+            offHeap = offHeap.doubleValue();
+        }
+        Map <String, Number> memoryMap = new HashMap<String, Number>();
+        memoryMap.put("onHeap", onHeap);
+        memoryMap.put("offHeap", offHeap);
+        return addConfiguration(Config.TOPOLOGY_RESOURCES_MEMORY_MB, memoryMap);
+    }
+
+    @Override
+    public T setCPULoad(Double amount) {
+        return addConfiguration(Config.TOPOLOGY_RESOURCES_CPU, amount);
+    } 
 }
