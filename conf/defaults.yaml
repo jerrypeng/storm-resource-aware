@@ -89,6 +89,8 @@ supervisor.monitor.frequency.secs: 3
 #how frequently the supervisor heartbeats to the cluster state (for nimbus)
 supervisor.heartbeat.frequency.secs: 5
 supervisor.enable: true
+supervisor.memory.capacity.mb: 20480.0
+supervisor.cpu.capacity: 100.0
 
 ### worker.* configs are for task workers
 worker.childopts: "-Xmx768m"
