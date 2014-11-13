@@ -54,8 +54,8 @@ public class Topologies {
     public Collection<TopologyDetails> getTopologies() {
         return this.topologies.values();
     }
-
- public Map<String, Map<ExecutorDetails, Map<String , Map<String, Double>>>> getGlobalResourceReqList() {
+    
+    public Map<String, Map<ExecutorDetails, Map<String , Map<String, Double>>>> getGlobalResourceReqList() {
         Map<String, Map<ExecutorDetails, Map<String , Map<String, Double>>>> ret = null;
         if (this.topologies.size() > 0) {
             ret = new HashMap<String, Map<ExecutorDetails, Map<String , Map<String, Double>>>>();

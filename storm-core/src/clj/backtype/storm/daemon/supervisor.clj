@@ -355,6 +355,11 @@
       (.add processes-event-manager sync-processes)
       )))
 
+(defn mk-supervisor-capacities 
+  [conf]
+  {"memory" (conf SUPERVISOR-MEMORY-CAPACITY-MB)
+   "cpu" (conf SUPERVISOR-CPU-CAPACITY)})
+
 ;; in local state, supervisor stores who its current assignments are
 ;; another thread launches events to restart any dead processes if necessary
 (defserverfn mk-supervisor [conf shared-context ^ISupervisor isupervisor]
@@ -375,7 +380,8 @@
                                                 ;; used ports
                                                 (.getMetadata isupervisor)
                                                 (conf SUPERVISOR-SCHEDULER-META)
-                                                ((:uptime supervisor)))))]
+                                                ((:uptime supervisor))
+                                                (mk-supervisor-capacities conf))))]
     (heartbeat-fn)
     ;; should synchronize supervisor so it doesn't launch anything after being down (optimization)
     (schedule-recurring (:timer supervisor)
