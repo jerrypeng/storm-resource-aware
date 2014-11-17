@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import backtype.storm.scheduler.Cluster;
 import backtype.storm.scheduler.IScheduler;
 import backtype.storm.scheduler.Topologies;
+import backtype.storm.scheduler.TopologyDetails;
 
 public class ResourceAwareScheduler implements IScheduler {
 	private static final Logger LOG = LoggerFactory
@@ -27,6 +28,11 @@ public class ResourceAwareScheduler implements IScheduler {
 		GlobalResources globalResources = new GlobalResources(topologies);
 		GlobalState globalState = GlobalState.getInstance("ResourceAwareScheduer");
 		globalState.updateInfo(cluster, topologies, globalResources);
+		R_Scheduler r_scheduler = new R_Scheduler(cluster, globalState, globalResources);
+		
+		for(TopologyDetails topo : topologies.getTopologies()) {
+			r_scheduler.schedule(topo, cluster.getUnassignedExecutors(topo));
+		}
 
 		Map<String, Node> nodeIdToNode = Node.getAllNodesFrom(cluster,
 				globalResources);

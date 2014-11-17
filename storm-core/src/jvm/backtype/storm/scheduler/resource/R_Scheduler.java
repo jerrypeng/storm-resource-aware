@@ -3,6 +3,7 @@ package backtype.storm.scheduler.resource;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -133,12 +134,7 @@ public class R_Scheduler {
      */
     public Map<Node, Collection<ExecutorDetails>> defaultScheduler(
       TopologyDetails td, Collection<ExecutorDetails> ExecutorsNeedScheduling) {
-      Number nodesRequested = (Number) td.getConf().get(Config.TOPOLOGY_ISOLATED_MACHINES);
-      LOG.debug("TOPOLOGY_ISOLATED_MACHINES: {}", nodesRequested);
-      Collection<Node> nodesToUse = null;
-      if (nodesRequested !=null) {
-        nodesToUse = this.getFreeNodes(this._availNodes, nodesRequested);
-      }
+      Collection<Node> nodesToUse = this._availNodes;
       LOG.debug("nodesToUse: {}", nodesToUse);
       return this.defaultScheduler(td, ExecutorsNeedScheduling, nodesToUse);
     }
@@ -362,41 +358,4 @@ public class R_Scheduler {
        }
        return bestNode;
      }
-
-    /**
-     * gets the node that a task is running on
-     * @param exec the task
-     * @param cluster the cluster to search in
-     * @return the node that the task is running on
-     */
-    public Node taskToNode(ExecutorDetails exec, Cluster cluster) {
-      for (Entry<String, SchedulerAssignment> entry : cluster.getAssignments()
-          .entrySet()) {
-        Map<ExecutorDetails, WorkerSlot> executorToSlot = entry.getValue()
-            .getExecutorToSlot();
-        if (executorToSlot.containsKey(exec) == true) {
-          WorkerSlot ws = executorToSlot.get(exec);
-          String nodeId = ws.getNodeId();
-          for (Node n : this._availNodes) {
-            if (n.getId().compareTo(nodeId) == 0) {
-              return n;
-            }
-          }
-        }
-      }
-      return null;
-    }
-
-    /**
-     * gets all nodes from these pools.
-     * @param pools the pools to get nodes from.
-     * @return retList a list of nodes
-     */
-    private Collection<Node> getAllNodes(NodePool[] pools) {
-      Collection<Node> retList = new ArrayList<Node>();
-      for (NodePool pool : pools) {
-        retList.addAll(pool._nodeIdToNode.values());
-      }
-      return retList;
-    }  
 }
