@@ -25,6 +25,7 @@ import backtype.storm.Config;
 import backtype.storm.generated.Bolt;
 import backtype.storm.generated.SpoutSpec;
 import backtype.storm.generated.StormTopology;
+import backtype.storm.scheduler.resource.Globals;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

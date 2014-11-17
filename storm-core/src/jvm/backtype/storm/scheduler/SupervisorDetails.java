@@ -22,7 +22,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import backtype.storm.scheduler.Globals;
+import backtype.storm.scheduler.resource.Globals;
 
 public class SupervisorDetails {
 

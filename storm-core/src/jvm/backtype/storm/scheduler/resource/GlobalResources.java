@@ -1,4 +1,4 @@
-package backtype.storm.scheduler;
+package backtype.storm.scheduler.resource;
 
 import java.util.Map;
 import java.util.HashMap;

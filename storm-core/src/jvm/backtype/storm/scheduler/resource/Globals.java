@@ -1,4 +1,4 @@
-package backtype.storm.scheduler;
+package backtype.storm.scheduler.resource;
 
 /**
  * A class to hold global variables

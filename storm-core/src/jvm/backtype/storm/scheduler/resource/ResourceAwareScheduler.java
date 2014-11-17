@@ -1,9 +1,13 @@
-package backtype.storm.scheduler;
+package backtype.storm.scheduler.resource;
 
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import backtype.storm.scheduler.Cluster;
+import backtype.storm.scheduler.IScheduler;
+import backtype.storm.scheduler.Topologies;
 
 public class ResourceAwareScheduler implements IScheduler {
 	private static final Logger LOG = LoggerFactory
@@ -21,6 +25,8 @@ public class ResourceAwareScheduler implements IScheduler {
 		LOG.info("\n\n\nRerunning ResourceAwareScheduler...");
 
 		GlobalResources globalResources = new GlobalResources(topologies);
+		GlobalState globalState = GlobalState.getInstance("ResourceAwareScheduer");
+		globalState.updateInfo(cluster, topologies, globalResources);
 
 		Map<String, Node> nodeIdToNode = Node.getAllNodesFrom(cluster,
 				globalResources);

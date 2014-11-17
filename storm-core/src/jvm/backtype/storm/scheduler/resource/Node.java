@@ -1,9 +1,10 @@
-package backtype.storm.scheduler;
+package backtype.storm.scheduler.resource;
 
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
@@ -29,8 +30,13 @@ public class Node {
   private final String _nodeId;
   private boolean _isAlive;
   public SupervisorDetails sup;
+  public String supervisor_id;
   private Double availMemory;
   private Double availCPU;
+  public String hostname;
+  public List<WorkerSlot> slots;
+  public List<ExecutorDetails> execs;
+  public Map<WorkerSlot, List<ExecutorDetails>> slot_to_exec;
 
   public Node(String nodeId, Set<Integer> allPorts, boolean isAlive) {
     _nodeId = nodeId;
@@ -46,8 +52,19 @@ public class Node {
       SupervisorDetails sup) {
 	  this(nodeId, allPorts, isAlive);
 	  this.sup = sup;
+	  this.supervisor_id = sup.getId();
 	  this.availMemory = this.getTotalMemoryResources();
 	  this.availCPU = this.getTotalCpuResources();
+	  this.hostname = this.sup.getHost();
+	  this.supervisor_id = sup.getId();
+	  this.slots = new ArrayList<WorkerSlot>();
+	  this.slots.addAll(this._freeSlots);
+	  this.execs = new ArrayList<ExecutorDetails>();
+	  slot_to_exec = new HashMap<WorkerSlot, List<ExecutorDetails>>();
+	  for (WorkerSlot ws : this.slots) {
+		  slot_to_exec.put(ws, new ArrayList<ExecutorDetails>());
+	  }
+
   }
 
   public String getId() {
