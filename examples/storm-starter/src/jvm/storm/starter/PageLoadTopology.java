@@ -31,7 +31,7 @@ public class PageLoadTopology {
 		
 		BoltDeclarer bolt3 = builder.setBolt("bolt_join", new TestBolt(), paralellism);
 		bolt3.setCPULoad(15.0);
-		bolt2.shuffleGrouping("bolt_filter");
+		bolt3.shuffleGrouping("bolt_filter");
 		
 		BoltDeclarer bolt4 = builder.setBolt("bolt_filter_2", new FilterBolt(), paralellism);
 		bolt4.setCPULoad(15.0);
