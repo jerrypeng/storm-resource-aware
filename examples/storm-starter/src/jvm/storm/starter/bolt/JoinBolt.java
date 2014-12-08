@@ -25,7 +25,7 @@ public class JoinBolt extends BaseRichBolt{
     }
     @Override
     public void execute(Tuple tuple) {
-    	Utils.sleep(50);
+    	//Utils.sleep(50);
       _collector.emit(tuple, new Values(tuple.getString(0)));
       //_collector.ack(tuple);
     }

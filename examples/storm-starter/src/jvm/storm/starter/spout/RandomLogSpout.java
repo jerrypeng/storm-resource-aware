@@ -41,7 +41,7 @@ public class RandomLogSpout extends BaseRichSpout {
 
   @Override
   public void nextTuple() {
-    Utils.sleep(50);
+    //Utils.sleep(50);
     String[] sentences = new String[]{ "the cow jumped over the moon", "the cow jumped over the moon, The quick brown fox jumps over the lazy dog", "an apple a day keeps the doctor away,an apple a day keeps the doctor away and this is supposed to be a very long log line",
         "four score and seven years ago","random", "snow white and the seven dwarfs","snow white", "i am at two with nature" };
     String sentence = sentences[_rand.nextInt(sentences.length)];

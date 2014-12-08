@@ -30,7 +30,7 @@ public class FilterBolt extends BaseRichBolt{
     public void execute(Tuple tuple) {
     	String word = tuple.getString(0);
     	Integer length=word.length();
-    	Utils.sleep(length);
+    	//Utils.sleep(length);
     	if(_rand.nextDouble()<0.8){
     		_collector.emit(tuple, new Values(tuple.getString(0)));
     	    //_collector.ack(tuple);
