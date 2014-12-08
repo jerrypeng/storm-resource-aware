@@ -22,7 +22,7 @@ public class PageLoadTopology {
 		spout.setCPULoad(40.0);
 
 		BoltDeclarer bolt1 = builder.setBolt("bolt_transform", new TransformBolt(), paralellism);
-		bolt1.setCPULoad(20.0);
+		bolt1.setCPULoad(40.0);
 		bolt1.shuffleGrouping("spout_head");
 		
 		BoltDeclarer bolt2 = builder.setBolt("bolt_filter", new FilterBolt(), paralellism);
@@ -34,7 +34,7 @@ public class PageLoadTopology {
 		bolt3.shuffleGrouping("bolt_filter");
 		
 		BoltDeclarer bolt4 = builder.setBolt("bolt_filter_2", new FilterBolt(), paralellism);
-		bolt4.setCPULoad(40.0);
+		bolt4.setCPULoad(20.0);
 		bolt4.shuffleGrouping("bolt_join");
 		
 		BoltDeclarer bolt5 = builder.setBolt("bolt_aggregate", new AggregationBolt(), paralellism);
