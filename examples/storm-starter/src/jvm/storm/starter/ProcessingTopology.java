@@ -18,36 +18,36 @@ public class ProcessingTopology {
 		TopologyBuilder builder = new TopologyBuilder();
 
 		SpoutDeclarer spout = builder.setSpout("spout_head", new RandomLogSpout(), paralellism);
-		spout.setCPULoad(40.0);
+		spout.setCPULoad(30.0);
 	
 		BoltDeclarer bolt1 = builder.setBolt("bolt_transform", new TransformBolt(), paralellism+2);
 		bolt1.shuffleGrouping("spout_head");
-		bolt1.setCPULoad(40.0);
+		bolt1.setCPULoad(30.0);
 		
 		
 		BoltDeclarer bolt2 = builder.setBolt("bolt_filter", new FilterBolt(), paralellism+2);
 		bolt2.shuffleGrouping("bolt_transform");
-		bolt2.setCPULoad(40.0);
+		bolt2.setCPULoad(30.0);
 		
 		BoltDeclarer bolt3 = builder.setBolt("bolt_join1", new TestBolt(), paralellism+2);
 		bolt3.shuffleGrouping("bolt_filter");
-		bolt3.setCPULoad(15.0);
+		bolt3.setCPULoad(10.0);
 		
 		BoltDeclarer bolt4 =builder.setBolt("bolt_output_1", new TestBolt(),paralellism+2);
 		bolt4.shuffleGrouping("bolt_join1");
-		bolt4.setCPULoad(15.0);
+		bolt4.setCPULoad(10.0);
 		
 		BoltDeclarer bolt5 =builder.setBolt("bolt_join2", new TransformBolt(), paralellism+2);
 		bolt5.shuffleGrouping("bolt_transform");
-		bolt5.setCPULoad(20.0);
+		bolt5.setCPULoad(15.0);
 		
 		BoltDeclarer bolt6 =builder.setBolt("bolt_normalize", new TestBolt(),paralellism+2);
 		bolt6.shuffleGrouping("bolt_join2");
-		bolt6.setCPULoad(15.0);
+		bolt6.setCPULoad(10.0);
 		
 		BoltDeclarer bolt7 =builder.setBolt("bolt_output_2", new TestBolt(),paralellism+2);
 		bolt7.shuffleGrouping("bolt_normalize");
-		bolt7.setCPULoad(15.0);
+		bolt7.setCPULoad(10.0);
 
 		Config conf = new Config();
 		conf.setDebug(true);
